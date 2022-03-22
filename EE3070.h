@@ -30,29 +30,54 @@ class PUMP
     void on();
     void off();
     bool dry();
+    int temperature();
+    int humidity();
+    int waterflow();
+    int PH();   
 };
 
 class LIGHT
   {
       private:
         byte threshold;
-
+      
       public:
       LIGHT(byte threshold, bool state=LOW);
       void on();
       void userON();
       void off();
       bool dark();
+      int brightness();
   };
 
-
-class DATA
+class ALARM
 {
+  private:
+    byte threshold;
+  
   public:
-  byte temperature();
-  byte humidity();
-  byte waterflow();
-  byte PH();
-  byte brightness();
+    
+    ALARM(byte threshold, bool state=LOW);
+    void alarmon();
+    void alarmoff();
+    void statusLED(int d);
+    bool warning(int d);
+    int distance();
+  };
+
+class ePaper
+{
+  private:
+    int brightness;
+    int humidity;
+    int temperature;
+    int PH;
+    int waterflow;
+
+  public:
+    ePaper(int brightness, int humidity, int temperature, int PH, int waterflow);
+    void firstpageDisplay();
+    void secondpageDisplay();
 };
+
 #endif
