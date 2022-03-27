@@ -7,6 +7,7 @@
 #include <GxEPD2_BW.h> 
 #include <Fonts/FreeMonoBold9pt7b.h> 
 #include "WiFiEsp.h"  
+#include <math.h>
 
  
 
@@ -32,10 +33,14 @@ float len1 = 0;
 float len2 = 0;
 float len3 = 0;
 int Distance = 0;
+int tDistance = 0;
 int wet = 0;
 int Brightness = 0;
-int duration = 0; 
-int lightness = 0; //variable set up
+float duration = 0; 
+int lightness = 0; 
+float real_temperature = 0;
+float real_lightness = 0;
+float real_humidity = 0;//variable set up
 
 LED::LED(byte p,bool state):pin(p)
 {
@@ -84,7 +89,9 @@ bool PUMP::dry(){
   }
 }
 int PUMP::temperature(){
-  return analogRead(5);
+  real_temperature = analogRead(5);
+  real_temperature = (5 * real_temperature * 100) / 1024;
+  return real_temperature;
 }
 int PUMP::humidity(){
   return analogRead(4);
@@ -123,10 +130,13 @@ bool LIGHT::dark(){
   }
 }
 int LIGHT::brightness(){
-  return analogRead(6);
+  real_lightness = analogRead(6);
+  real_lightness = pow(350*(16.5/real_lightness - 3.3),-1.43);
+  return real_lightness;
 }
 
 ALARM::ALARM(byte threshold, bool state = LOW){
+  tDistance = threshold;
   pinMode(distanceecho,INPUT);
   pinMode(distancetrig,OUTPUT);
   pinMode(LED_blue_light, OUTPUT);
@@ -144,14 +154,14 @@ int ALARM::distance(){
   Distance = duration * 0.034 / 2;
   return Distance;
 }
-void ALARM::alarmon(){
-  tone(buzzer,1000);
+void ALARM::on(){
+  tone(buzzer,500);
 }
-void ALARM::alarmoff(){
+void ALARM::off(){
   noTone(buzzer);
 }
 bool ALARM::warning(int d){
-  if(d<threshold){
+  if(d<tDistance){
     return true;
   }
   else{
@@ -159,7 +169,7 @@ bool ALARM::warning(int d){
   }
 }
 void ALARM::statusLED(int d){
-  if(d<threshold){
+  if(d<tDistance){
     digitalWrite(LED_red_light,HIGH);
     digitalWrite(LED_green_light,LOW);
   }
@@ -243,6 +253,3 @@ display.println("T: ");
  } while (display.nextPage());
 display.powerOff();
 }
-
-
-
