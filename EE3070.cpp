@@ -36,6 +36,7 @@ float len2 = 0;
 float len3 = 0;
 int Distance = 0;
 int tDistance = 0;
+int tBrightness = 0;
 int wet = 0;
 int Brightness = 0;
 float duration = 0; 
@@ -113,6 +114,7 @@ LIGHT::LIGHT(byte threshold, bool state)
 {
   pinMode(light, OUTPUT);
   digitalWrite(light,state);
+  tBrightness = threshold;
 }
 void LIGHT::on(){
   lightness = analogRead(6);
@@ -127,7 +129,7 @@ void LIGHT::userON(){
 }
 bool LIGHT::dark(){
   lightness = analogRead(6);
-  if(lightness<threshold){
+  if(lightness<tBrightness){
     return true;
   }
   else{
