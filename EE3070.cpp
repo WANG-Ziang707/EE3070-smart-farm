@@ -6,7 +6,9 @@
 #include <Adafruit_SSD1306.h>
 #include <GxEPD2_BW.h> 
 #include <Fonts/FreeMonoBold9pt7b.h> 
-#include "WiFiEsp.h"  
+#include "WiFiEsp.h"
+#include "secrets.h"
+#include "ThingSpeak.h"
 #include <math.h>
 
  
