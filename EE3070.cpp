@@ -43,17 +43,8 @@ int lightness = 0;
 float real_temperature = 0;
 float real_lightness = 0;
 float real_humidity = 0;//variable set up
-char ssid[] = SECRET_SSID;   // your network SSID (name) 
-char pass[] = SECRET_PASS;   // your network password
-int keyIndex = 0;            // your network key Index number (needed only for WEP)
-int LED;
-int ledPin=8; //the pin is used to turn on and off the LED
-WiFiEspClient  client;
 
-// Counting channel details
-unsigned long counterChannelNumber = SECRET_CH_ID_COUNTER;
-const char * myCounterReadAPIKey = SECRET_READ_APIKEY_COUNTER;
-unsigned int counterFieldNumber = 1; 
+
 //--------------------------------------------------------------------------------------------------
 
 LED::LED(byte p,bool state):pin(p)
